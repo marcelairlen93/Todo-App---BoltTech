@@ -22,7 +22,7 @@ exports.update = async (req, res) => {
 
     const finishDate = isCompleted ? new Date() : null;
 
-    const taskToUpdate = await Task.findByPK(taskId);
+    const taskToUpdate = await Task.findByPk(taskId);
 
     taskToUpdate.description = description;
     taskToUpdate.isCompleted = isCompleted;
@@ -40,7 +40,7 @@ exports.delete = async (req, res) => {
   try {
     const { id: taskId } = req.params;
 
-    const taskToDelete = await Task.findByPK(taskId);
+    const taskToDelete = await Task.findByPk(taskId);
     taskToDelete.destroy();
 
     res.status(204).send();

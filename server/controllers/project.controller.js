@@ -40,7 +40,7 @@ exports.update = async (req, res) => {
     const { id: projectId } = req.params;
     const { name } = req.body;
 
-    const projectToUpdate = await Project.findByPK(projectId);
+    const projectToUpdate = await Project.findByPk(projectId);
 
     projectToUpdate.name = name;
 
@@ -56,7 +56,7 @@ exports.delete = async (req, res) => {
   try {
     const { id: projectId } = req.params;
 
-    const projectToDestroy = await Project.findByPK(projectId);
+    const projectToDestroy = await Project.findByPk(projectId);
     projectToDestroy.destroy();
 
     res.status(204).send();
