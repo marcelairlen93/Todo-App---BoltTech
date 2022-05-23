@@ -22,7 +22,7 @@ export const Nav = () => {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           BOLTTECH TODO APP
         </Typography>
-        <Button color="inherit">Login</Button>
+        <Button color="inherit" onClick={handleLogout}>{user.name} (Logout)</Button>
       </Toolbar>
     </AppBar>
   );

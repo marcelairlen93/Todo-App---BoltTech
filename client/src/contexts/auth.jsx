@@ -12,6 +12,25 @@ export function AuthProvider({ children }) {
   const [authed, setAuthed] = React.useState(false);
   const [user, setUser] = React.useState({});
 
+  const register = (name, username, password) => {
+    try {
+      const response = api.post("/users/register", { name, username, password });
+
+      response.then((res) => {
+        setAuthed(true);
+        setUser({
+          id: res.data.id,
+          name: res.data.name,
+        });
+      });
+
+      return response;
+    } catch (err) {
+      console.warn("Error while trying to Register")
+      console.error(err.message);
+    }
+  };
+
   const login = (username, password) => {
     try {
       const response = api.post("/users/login", { username, password });
@@ -53,6 +72,7 @@ export function AuthProvider({ children }) {
   const value = {
     authed,
     user,
+    register,
     login,
     logout,
   };

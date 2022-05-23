@@ -8,16 +8,48 @@ export const Login = () => {
   const { state } = useLocation();
   const { login } = useAuth();
 
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  }
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  }
+
   const handleLogin = () => {
-    login("masr", "12345678").then(() => {
+    login(username, password).then(() => {
       navigate(state?.path || "/app");
     });
   };
 
+
+  const goToRegister = () => {
+    navigate("/signup");
+  };
+
+  const renderForm = (
+    <div className="form">
+      <form>
+        <div className="input-container">
+          <label>Username </label>
+          <input type="text" name="uname" required value={username} onChange={handleUsernameChange} />
+        </div>
+        <div className="input-container">
+          <label>Password </label>
+          <input type="password" name="pass" required value={password} onChange={handlePasswordChange} />
+        </div>
+      </form>
+    </div>
+  );
+
   return (
     <div>
-      <h1>Login</h1>
-      <button onClick={handleLogin}>Log In</button>
+      <h1>Sign In</h1>
+      {renderForm}
+      <button type="submit" onClick={handleLogin}>Login</button>
+      <button type="submit" onClick={goToRegister}>Sign Up</button>
     </div>
   );
 };
