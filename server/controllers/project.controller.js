@@ -40,13 +40,13 @@ exports.update = async (req, res) => {
     const { id: projectId } = req.params;
     const { name } = req.body;
 
-    const projectToUpdate = await Project.findByPk(projectId);
+    const updatedProject = await Project.findByPk(projectId);
 
-    projectToUpdate.name = name;
+    updatedProject.name = name;
 
-    const updatedProject = await projectToUpdate.save();
+    await updatedProject.save();
 
-    res.status(204).json(updatedProject);
+    res.status(200).json(updatedProject);
   } catch (err) {
     console.error(err.message);
   }

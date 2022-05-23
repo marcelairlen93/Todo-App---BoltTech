@@ -17,13 +17,15 @@ const register = async (req, res) => {
       password: hashPassword,
     });
 
+    const userData = { id: newUser.id, name: newUser.name };
+
     // Create and assign token
-    const token = jwt.sign({ id: newUser.id, name: newUser.name }, config.TOKEN_SECRET);
+    const token = jwt.sign(userData, config.TOKEN_SECRET);
     res.header('Authorization', token);
 
     res.status(201).json({
-      id: newUser.id,
-      name,
+      ...userData,
+      token
     });
   } catch (err) {
     console.error(err.message);
@@ -43,9 +45,16 @@ const login = async (req, res) => {
       const validPass = await bcrypt.compare(password, user.password);
       if (!validPass) return res.status(400).send('Username or Password is wrong');
 
+      const userData = { id: user.id, name: user.name };
+
       // Create and assign token
-      const token = jwt.sign({ id: user.id, name: user.name }, config.TOKEN_SECRET);
-      res.header('auth-token', token).send({ token });
+      const token = jwt.sign(userData, config.TOKEN_SECRET);
+      res.header('Authorization', token);
+
+      res.status(200).json({
+        ...userData,
+        token
+      });
     }
   } catch (err) {
     console.error(err.message);

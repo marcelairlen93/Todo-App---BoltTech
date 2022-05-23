@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "stack": "concurrently \"yarn dev\" \"yarn --cwd ../client/ dev\""
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -16,6 +17,7 @@
     "sequelize": "^6.19.2"
   },
   "devDependencies": {
+    "concurrently": "^7.2.0",
     "eslint": "^7.32.0 || ^8.2.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.2",

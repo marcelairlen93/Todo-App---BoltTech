@@ -20,17 +20,21 @@ exports.update = async (req, res) => {
     const { id: taskId } = req.params;
     const { description, isCompleted } = req.body;
 
+    const task = await Task.findByPk(taskId);
+
+    if (task.finishDate) {
+      return res.status(400).send("Task finished! It can't be edited");
+    }
+
     const finishDate = isCompleted ? new Date() : null;
 
-    const taskToUpdate = await Task.findByPk(taskId);
+    task.description = description;
+    task.isCompleted = isCompleted;
+    task.finishDate = finishDate;
 
-    taskToUpdate.description = description;
-    taskToUpdate.isCompleted = isCompleted;
-    taskToUpdate.finishDate = finishDate;
+    await task.save();
 
-    const updatedTask = await taskToUpdate.save();
-
-    res.status(204).json(updatedTask);
+    res.status(200).json(task);
   } catch (err) {
     console.error(err.message);
   }
@@ -41,6 +45,11 @@ exports.delete = async (req, res) => {
     const { id: taskId } = req.params;
 
     const taskToDelete = await Task.findByPk(taskId);
+
+    if (taskToDelete.finishDate) {
+      return res.status(400).send("Task finished! It can't be edited");
+    }
+
     taskToDelete.destroy();
 
     res.status(204).send();
